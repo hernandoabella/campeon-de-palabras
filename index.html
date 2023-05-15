@@ -1,59 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Batidor de palabras</title>
-    
-    <link rel="stylesheet" href="./styles.css">
-</head>
+    <link rel="stylesheet" href="./styles.css" />
+    <link
+      href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro-v6@44659d9/css/all.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+  </head>
 
-
-<body>
-
-    <header class="text-center container-fluid" id="head">
-            <h1>WordBeater</h1>
-    </header>
-
+  <body>
     <div class="container">
-            <div class="row">
-        
-                <p class="col-12 mx-auto text-center mt-5">Type the given word within 
-                    <span class="text-success" id="seconds"></span>
-                    seconds</p>
-            
-                <h1 class="display-2 col-12 mx-auto text-center" id="current-word">hello</h1>
-            
-                <input type="text" placeholder="Start typing..." class="col-4 mx-auto mt-5 form-control" id="word-input" autofocus>
-        
-                <h5 id="message" class="col-12 text-center"></h5>
+        <div class="flex">
+          <span><i class="fa-solid fa-circle-info"></i></span>
+          <b>Puntuación:</b>
+          <span id="score">0</span>
+          <b>Tiempo restante:</b>
+          <span id="time">0</span>
+        </div>
 
-                <h4 class="col-12 mt-5 text-center">Time Left: 
-                    <span id="time">0</span>
-                </h4>
-        
-                <h4 class="col-12 mt-1 text-center">Score: 
-                    <span id="score">0</span>
-                </h4>
+        <h1 id="current-word">hello</h1>
 
-                <div class="card mt-3 col-6 mx-auto">
-                    <div class="card-body">
-                        <h5 class="card-title text-center">Instructions</h5>
-                        <p class="card-text text-center">
-                            Type each word in the given amount of seconds to score. To play again, just type the current word. Your score will reset.
-                        </p>
-                    </div>
-                </div>
+        <input
+          type="text"
+          placeholder="Start typing..."
+          id="word-input"
+          autofocus
+        />
 
+        <h5 id="message"></h5>
+
+        <div id="dialog-box" class="dialog-box">
+            <div class="instrucciones">
+              <button id="close-btn" class="close-btn">Close</button>
+              <h3>Instructions</h3>
+              <p>Type each word in the given amount of seconds to score. To play
+                again, just type the current word. Your score will reset.</p>
             </div>
+            
+          </div>
+          
+          <button id="open-btn" class="open-btn">Open dialog box</button>
+          
+      
     </div>
 
-    
     <script src="script.js"></script>
-
-</body>
-
+  </body>
 </html>
