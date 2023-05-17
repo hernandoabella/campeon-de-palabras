@@ -1,132 +1,125 @@
-// Available levels
-const levels = {
-  easy: 5,
-  medium: 3,
-  hard: 1,
-};
+document.addEventListener('DOMContentLoaded', function() {
+  const currentWord = document.querySelector('.current-word');
+  const wordInput = document.getElementById('word-input');
+  const message = document.getElementById('message');
+  const countdownDisplay = document.getElementById('countdown');
+  const scoreDisplay = document.getElementById('score');
+  const startButton = document.getElementById('start-btn');
+  const levelButtons = document.querySelectorAll('input[name="level"]');
 
-// To change levels
-const currentLevel = levels.easy;
+  let time = 0;
+  let score = 0;
+  let isPlaying = false;
+  let words = [];
+  let currentLevel = 'easy';
+  let countdownInterval;
 
-let time = currentLevel;
-let score = 0;
-let isPlaying;
+  // Initialize game
+  function init() {
+    // Set event listeners
+    startButton.addEventListener('click', startGame);
+    wordInput.addEventListener('input', checkWordMatch);
+    levelButtons.forEach(function(button) {
+      button.addEventListener('change', function() {
+        currentLevel = this.value;
+      });
+    });
 
-// DOM elements
-const wordInput = document.querySelector("#word-input");
-const currentWord = document.querySelector("#current-word");
-const scoreDisplay = document.querySelector("#score");
-const timeDisplay = document.querySelector("#time");
-const message = document.querySelector("#message");
-const seconds = document.querySelector("#seconds");
+    // Load words based on selected level
+    loadWords();
 
-// Word array
-const words = [
-  "width",
-  "unlikely",
-  "acceptable",
-];
+    // Update UI
+    updateScore();
+    updateCountdown();
+  }
 
-// Initialize Game
-const initializeGame = () => {
-  // Show number of seconds in UI
-  seconds.innerHTML = currentLevel;
-  // Load word from array
-  showRandomWord(words);
-  // Start matching on word inputs
-  wordInput.addEventListener("input", handleMatch);
-  // Call countdown every second
-  setInterval(startCountdown, 1000);
-  // Check game status
-  setInterval(checkGameStatus, 50);
-};
+  // Load words based on selected level
+  function loadWords() {
+    switch (currentLevel) {
+      case 'easy':
+        words = [
+          'width',
+          'unlikely',
+          'acceptable',
+        ];
+        time = 5;
+        break;
+      case 'medium':
+        words = [
+          'javascript',
+          'programming',
+          'challenge',
+        ];
+        time = 3;
+        break;
+      case 'hard':
+        words = [
+          'magnificent',
+          'complicated',
+          'exquisite',
+        ];
+        time = 1;
+        break;
+    }
 
-// Start Match
-const handleMatch = () => {
-  if (isWordMatch()) {
+    currentWord.textContent = getRandomWord();
+  }
+
+  // Start the game
+  function startGame() {
+    if (isPlaying) {
+      return;
+    }
+
     isPlaying = true;
-    time = currentLevel + 1;
-    showRandomWord(words);
-    wordInput.value = "";
-    updateScore(1);
-  } else {
-    clearMessage();
+    wordInput.disabled = false;
+    wordInput.value = '';
+    wordInput.focus();
+    startButton.style.display = 'none';
+    countdownInterval = setInterval(updateCountdown, 1000);
   }
-};
 
-// Check if word matches input
-const isWordMatch = () => {
-  const matched = wordInput.value === currentWord.innerHTML;
-  message.innerHTML = matched ? "Correct!" : "";
-  return matched;
-};
+  // Check if typed word matches the current word
+  function checkWordMatch() {
+    if (!isPlaying) {
+      return;
+    }
 
-// Pick and show random word
-const showRandomWord = (words) => {
-  const randIndex = Math.floor(Math.random() * words.length);
-  currentWord.innerHTML = words[randIndex];
-};
-
-// Countdown timer
-const startCountdown = () => {
-  if (time > 0) {
-    time--;
-  } else if (time === 0) {
-    isPlaying = false;
+    if (wordInput.value === currentWord.textContent) {
+      message.textContent = '¡Correcto!';
+      score++;
+      updateScore();
+      wordInput.value = '';
+      currentWord.textContent = getRandomWord();
+    }
   }
-  timeDisplay.innerHTML = time;
-};
 
-// Check game status
-const checkGameStatus = () => {
-  if (!isPlaying && time === 0) {
-    message.innerHTML = "Game Over!";
-    updateScore(-1);
+  // Update score display
+  function updateScore() {
+    scoreDisplay.textContent = score;
   }
-};
 
-// Update score
-const updateScore = (increment) => {
-  score += increment;
-  scoreDisplay.innerHTML = (score === -1) ? 0 : score;
-};
+  // Update countdown display and check game over condition
+  function updateCountdown() {
+    countdownDisplay.textContent = time;
 
-// Clear message
-const clearMessage = () => {
-  message.innerHTML = "";
-};
-
-// Restart game
-const restartGame = () => {
-  const confirmRestart = confirm("Are you sure you want to restart the game?");
-  if (confirmRestart) {
-    time = currentLevel;
-    score = 0;
-    isPlaying = false;
-    clearMessage();
-    showRandomWord(words);
-    wordInput.value = "";
-    scoreDisplay.innerHTML = 0;
-    timeDisplay.innerHTML = currentLevel;
+    if (time === 0) {
+      clearInterval(countdownInterval);
+      isPlaying = false;
+      wordInput.disabled = true;
+      startButton.style.display = 'block';
+      startButton.textContent = 'Reiniciar Juego';
+      message.textContent = '¡Juego terminado! Puntuación final: ' + score;
+    } else {
+      time--;
+    }
   }
-};
 
-const dialogBox = document.getElementById("dialog-box");
-const openBtn = document.getElementById("open-btn");
-const closeBtn = document.getElementById("close-btn");
-const restartBtn = document.getElementById("restart-btn");
+  // Get a random word from the words array
+  function getRandomWord() {
+    return words[Math.floor(Math.random() * words.length)];
+  }
 
-openBtn.addEventListener("click", () => {
-  dialogBox.style.display = "block";
+  // Initialize the game
+  init();
 });
-
-closeBtn.addEventListener("click", () => {
-  dialogBox.style.display = "none";
-});
-
-restartBtn.addEventListener("click", () => {
-  restartGame();
-});
-
-// Initialize the game
-initializeGame();

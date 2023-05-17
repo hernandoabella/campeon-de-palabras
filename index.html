@@ -1,50 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Batidor de palabras</title>
-    <link rel="stylesheet" href="./styles.css" />
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-  </head>
-
-  <body>
-    <div class="container">
-        <div class="flex">
-          <span><i class="fa-solid fa-circle-info"></i></span>
-          <b>Puntuación:</b>
-          <span id="score">0</span>
-          <b>Tiempo restante:</b>
-          <span id="time">0</span>
-        </div>
-
-        <h1 id="current-word">hello</h1>
-
-        <input
-          type="text"
-          placeholder="Start typing..."
-          id="word-input"
-          autofocus
-        />
-
-        <h5 id="message"></h5>
-
-        <div id="dialog-box" class="dialog-box">
-            <div class="instrucciones">
-              <button id="close-btn" class="close-btn">Close</button>
-              <h3>Instructions</h3>
-              <p>Type each word in the given amount of seconds to score. To play
-                again, just type the current word. Your score will reset.</p>
-            </div>
-            
-          </div>
-          
-          <button id="open-btn" class="open-btn">Open dialog box</button>
-          
-      
+<html>
+<head>
+  <title>Juego de Mecanografía</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 class="title">Juego de Mecanografía</h1>
+      <div class="level-buttons">
+        <label>
+          <input type="radio" name="level" value="easy" checked>
+          Fácil
+        </label>
+        <label>
+          <input type="radio" name="level" value="medium">
+          Medio
+        </label>
+        <label>
+          <input type="radio" name="level" value="hard">
+          Difícil
+        </label>
+      </div>
+      <button id="start-btn">Iniciar Juego</button>
     </div>
-
-    <script src="script.js"></script>
-  </body>
+    <div class="game">
+      <h2 class="current-word">Palabra</h2>
+      <input type="text" id="word-input" placeholder="Escribe la palabra" autofocus>
+      <div class="message" id="message"></div>
+      <div class="timer">
+        Tiempo restante: <span id="countdown">0</span>
+      </div>
+      <div class="score">
+        Puntuación: <span id="score">0</span>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
 </html>
