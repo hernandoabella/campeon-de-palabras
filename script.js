@@ -1,20 +1,18 @@
-window.onload = init;
-
-//Available levels
+// Available levels
 const levels = {
   easy: 5,
   medium: 3,
   hard: 1,
 };
 
-//To change levels
+// To change levels
 const currentLevel = levels.easy;
 
 let time = currentLevel;
 let score = 0;
 let isPlaying;
 
-//DOM elements
+// DOM elements
 const wordInput = document.querySelector("#word-input");
 const currentWord = document.querySelector("#current-word");
 const scoreDisplay = document.querySelector("#score");
@@ -22,91 +20,101 @@ const timeDisplay = document.querySelector("#time");
 const message = document.querySelector("#message");
 const seconds = document.querySelector("#seconds");
 
-//Word array
+// Word array
 const words = [
   "width",
   "unlikely",
   "acceptable",
 ];
 
-//Initialize Game
-function init() {
+// Initialize Game
+const initializeGame = () => {
   // Show number of seconds in UI
   seconds.innerHTML = currentLevel;
   // Load word from array
-  showWord(words);
+  showRandomWord(words);
   // Start matching on word inputs
-  wordInput.addEventListener("input", startMatch);
+  wordInput.addEventListener("input", handleMatch);
   // Call countdown every second
-  setInterval(countdown, 1000);
+  setInterval(startCountdown, 1000);
   // Check game status
-  setInterval(checkStatus, 50);
-}
+  setInterval(checkGameStatus, 50);
+};
 
 // Start Match
-function startMatch() {
-  if (matchWords()) {
+const handleMatch = () => {
+  if (isWordMatch()) {
     isPlaying = true;
     time = currentLevel + 1;
-    showWord(words);
+    showRandomWord(words);
     wordInput.value = "";
-    score++;
-  }
-
-  // If score is -1, show 0
-  if (score == -1) {
-    scoreDisplay.innerHTML = 0;
+    updateScore(1);
   } else {
-    scoreDisplay.innerHTML = score;
+    clearMessage();
   }
-}
+};
 
-// Match current word to word input
-function matchWords() {
-  if (wordInput.value == currentWord.innerHTML) {
-    message.innerHTML = "Correct!";
-    return true;
-  } else {
-    message.innerHTML = "";
-    return false;
-  }
-}
+// Check if word matches input
+const isWordMatch = () => {
+  const matched = wordInput.value === currentWord.innerHTML;
+  message.innerHTML = matched ? "Correct!" : "";
+  return matched;
+};
 
-//Pick and show random word
-function showWord(words) {
-  //Generate random array index
+// Pick and show random word
+const showRandomWord = (words) => {
   const randIndex = Math.floor(Math.random() * words.length);
-  //Output random word
   currentWord.innerHTML = words[randIndex];
-}
+};
 
-//Countdown timer
-function countdown() {
-  // If the time is not run out
+// Countdown timer
+const startCountdown = () => {
   if (time > 0) {
-    //Decrement
     time--;
-  }
-  // If the time has run out
-  else if (time == 0) {
-    //Game is over
+  } else if (time === 0) {
     isPlaying = false;
   }
-  //Show time
   timeDisplay.innerHTML = time;
-}
+};
 
-//Check game status
-function checkStatus() {
-  if (!isPlaying && time == 0) {
+// Check game status
+const checkGameStatus = () => {
+  if (!isPlaying && time === 0) {
     message.innerHTML = "Game Over!";
-    score = -1;
+    updateScore(-1);
   }
-}
+};
+
+// Update score
+const updateScore = (increment) => {
+  score += increment;
+  scoreDisplay.innerHTML = (score === -1) ? 0 : score;
+};
+
+// Clear message
+const clearMessage = () => {
+  message.innerHTML = "";
+};
+
+// Restart game
+const restartGame = () => {
+  const confirmRestart = confirm("Are you sure you want to restart the game?");
+  if (confirmRestart) {
+    time = currentLevel;
+    score = 0;
+    isPlaying = false;
+    clearMessage();
+    showRandomWord(words);
+    wordInput.value = "";
+    scoreDisplay.innerHTML = 0;
+    timeDisplay.innerHTML = currentLevel;
+  }
+};
 
 const dialogBox = document.getElementById("dialog-box");
 const openBtn = document.getElementById("open-btn");
 const closeBtn = document.getElementById("close-btn");
+const restartBtn = document.getElementById("restart-btn");
 
 openBtn.addEventListener("click", () => {
   dialogBox.style.display = "block";
@@ -115,3 +123,10 @@ openBtn.addEventListener("click", () => {
 closeBtn.addEventListener("click", () => {
   dialogBox.style.display = "none";
 });
+
+restartBtn.addEventListener("click", () => {
+  restartGame();
+});
+
+// Initialize the game
+initializeGame();
