@@ -77,18 +77,3 @@ function checkStatus() {
     score = -1;
   }
 }
-
-// Handle input
-function handleInput() {
-  const input = wordInput.value;
-  const current = currentWord.innerHTML;
-  let coloredText = "";
-
-  for (let i = 0; i < current.length; i++) {
-    const isCorrect = input[i] === current[i];
-    const color = isCorrect ? "green" : "red";
-    coloredText += `<span style="color: ${color};">${current[i]}</span>`;
-  }
-
-  currentWord.innerHTML = coloredText;
-}
