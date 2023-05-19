@@ -1,40 +1,29 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Juego de Mecanografía</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div class="container">
-    <div class="header">
-      <div class="level-buttons">
-        <label>
-          <input type="radio" name="level" value="easy" checked>
-          Fácil
-        </label>
-        <label>
-          <input type="radio" name="level" value="medium">
-          Medio
-        </label>
-        <label>
-          <input type="radio" name="level" value="hard">
-          Difícil
-        </label>
-      </div>
-      <button id="start-btn">Iniciar Juego</button>
-    </div>
-    <div class="game">
-      <h2 class="current-word">Palabra</h2>
-      <input type="text" id="word-input" placeholder="Escribe la palabra" autofocus>
-      <div class="message" id="message"></div>
-      <div class="timer">
-        Tiempo restante: <span id="countdown">0</span>
-      </div>
-      <div class="score">
-        Puntuación: <span id="score">0</span>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Campeoón de palabras 🏆</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <div><b>Tiempo:</b> <span id="time">0</span></div>
+        <div><b>Puntuación:</b> <span id="score">0</span></div>
+      </header>
+      <div>
+        <h1 id="current-word">hello</h1>
+        <input
+          type="text"
+          placeholder="Empezar a escribir..."
+          id="word-input"
+          autofocus
+        />
+        <h5 id="message"></h5>
       </div>
     </div>
-  </div>
-  <script src="script.js"></script>
-</body>
+    <script src="./script.js"></script>
+  </body>
 </html>
