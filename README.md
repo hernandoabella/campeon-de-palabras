@@ -1,1 +1,1 @@
-# Batidor de palabras
+# Campeón de palabras
