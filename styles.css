@@ -38,10 +38,9 @@ input {
   text-align: center;
 }
 
-.correct {
-  color: green;
-}
-
-.incorrect {
-  color: red;
+@media screen and (max-width: 768px) {
+  .container {
+    width: 90vw;
+    max-width: 90%;
+  }
 }
