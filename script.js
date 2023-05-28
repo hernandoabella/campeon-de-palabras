@@ -1,79 +1,69 @@
-window.onload = init;
+const words = ["Hello", "World", "Game", "Font", "Play"];
+const cards = document.querySelectorAll(".card");
+const input = document.getElementById("input");
+const startButton = document.getElementById("start-button");
+const timerElement = document.getElementById("timer");
+let timer;
+let timeLeft = 5; // Tiempo en segundos
 
-// Globals
-const levels = {
-  easy: 5,
-  medium: 3,
-  hard: 1,
-};
+// Mostrar palabras durante 5 segundos
+function showWords() {
+  cards.forEach((card, index) => {
+    card.textContent = words[index];
+  });
 
-const currentLevel = levels.easy;
-let time = currentLevel;
-let score = 0;
-let isPlaying;
+  timerElement.textContent = timeLeft;
 
-// DOM elements
-const wordInput = document.querySelector("#word-input");
-const currentWord = document.querySelector("#current-word");
-const scoreDisplay = document.querySelector("#score");
-const timeDisplay = document.querySelector("#time");
-const message = document.querySelector("#message");
+  timer = setInterval(() => {
+    timeLeft--;
+    timerElement.textContent = timeLeft;
 
-// Word array
-const words = ["juego", "amabilidad", "pasion", "comprension", "amor"];
-
-// Initialize Game
-function init() {
-  showWord(words);
-  wordInput.addEventListener("input", handleInput);
-  setInterval(countdown, 1000);
-  setInterval(checkStatus, 50);
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      cards.forEach(card => {
+        card.textContent = "";
+      });
+      startGame();
+    }
+  }, 1000); // Actualizar el temporizador cada segundo (1000 ms)
 }
 
-// Start Match
-function startMatch() {
-  if (matchWords()) {
-    isPlaying = true;
-    time = currentLevel + 1;
-    showWord(words);
-    wordInput.value = "";
-    score++;
+// Iniciar el juego después de que las palabras se oculten
+function startGame() {
+  input.value = "";
+  input.disabled = false;
+  input.focus();
+
+  input.addEventListener("input", checkInput);
+}
+
+// Verificar la entrada del usuario
+function checkInput() {
+  const userInput = input.value.trim().toLowerCase();
+  const currentWord = words[0].toLowerCase();
+
+  if (userInput === currentWord) {
+    words.shift();
+
+    if (words.length === 0) {
+      endGame(true); // Todas las palabras se han ingresado correctamente
+    } else {
+      input.value = "";
+    }
   }
-
-  scoreDisplay.innerHTML = score === -1 ? 0 : score;
 }
 
-// Match current word to word input
-function matchWords() {
-  if (wordInput.value === currentWord.innerHTML) {
-    message.innerHTML = "¡Correcto!";
-    return true;
+// Finalizar el juego
+function endGame(completed) {
+  clearInterval(timer);
+  input.disabled = true;
+  input.removeEventListener("input", checkInput);
+
+  if (completed) {
+    alert("¡Has ingresado todas las palabras correctamente en el tiempo dado!");
   } else {
-    message.innerHTML = "";
-    return false;
+    alert("¡El tiempo ha terminado! No has ingresado todas las palabras.");
   }
 }
 
-// Pick and show random word
-function showWord(words) {
-  const randIndex = Math.floor(Math.random() * words.length);
-  currentWord.innerHTML = words[randIndex];
-}
-
-// Countdown timer
-function countdown() {
-  if (time > 0) {
-    time--;
-  } else if (time === 0) {
-    isPlaying = false;
-  }
-  timeDisplay.innerHTML = time;
-}
-
-// Check game status
-function checkStatus() {
-  if (!isPlaying && time === 0) {
-    message.innerHTML = "¡Juego terminado!";
-    score = -1;
-  }
-}
+startButton.addEventListener("click", showWords);

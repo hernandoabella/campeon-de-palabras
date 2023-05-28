@@ -9,20 +9,17 @@
   </head>
   <body>
     <div class="container">
-      <header>
-        <div><b>Tiempo:</b> <span id="time">0</span></div>
-        <div><b>Puntuación:</b> <span id="score">0</span></div>
-      </header>
-      <div>
-        <h1 id="current-word">hello</h1>
-        <input
-          type="text"
-          placeholder="Empezar a escribir..."
-          id="word-input"
-          autofocus
-        />
-        <h5 id="message"></h5>
+      <div class="board">
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
+        <div class="card"></div>
       </div>
+      <input type="text" id="input" placeholder="Escribe las palabras aquí">
+      <button id="start-button">Comenzar</button>
+      <p id="timer"></p>
+            
     </div>
     <script src="./script.js"></script>
   </body>
